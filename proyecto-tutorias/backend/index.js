@@ -6,6 +6,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Ruta de prueba (para confirmar conexión)
+app.get('/', (req, res) => {
+  res.send('✅ Backend del Sistema de Tutorías funcionando correctamente.');
+});
+
 // Ruta de prueba: leer todos los estudiantes (tabla ejemplo)
 app.get('/api/estudiantes', async (req, res) => {
   try {
@@ -32,6 +37,20 @@ app.post('/api/estudiantes', async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log('Servidor backend en puerto 3001');
+// Ruta de prueba MySQL
+app.get('/api/dbtest', async (req, res) => {
+  try {
+    const [rows] = await db.query('SHOW DATABASES;');
+    res.json({
+      message: '✅ Conexión MySQL exitosa',
+      databases: rows
+    });
+  } catch (error) {
+    console.error('❌ Error en la consulta:', error);
+    res.status(500).json({ message: 'Error conectando a MySQL', error: error.message });
+  }
+});
+
+app.listen(3000, '0.0.0.0', () => {
+  console.log("Servidor escuchando en el puerto 3000 (todas las interfaces)");
 });

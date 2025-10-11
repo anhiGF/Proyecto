@@ -1,14 +1,13 @@
-// backend/db.js
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
-  host: 'db',          // Nombre del servicio MySQL en docker-compose
-  user: 'user',        // Usuario definido en docker-compose
-  password: 'userpass',// Contraseña
-  database: 'tutoria', // Base de datos creada
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'tutorias',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
 
-module.exports = pool.promise();
+module.exports = pool;
