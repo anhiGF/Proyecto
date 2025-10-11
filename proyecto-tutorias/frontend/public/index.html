@@ -1,43 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Tutorías - ITSJ</title>
+    <link rel="stylesheet" href="../src/App.css">
+</head>
+<body>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <header>
+        <div class="logo">
+            <img src="img/logo_itsj.png" alt="Logo ITSJ">
+            <h1>Área de Tutorías ITSJ</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="../pages/coordinadora.html">Coordinadora</a></li>
+                <li><a href="../pages/tutores.html">Tutores</a></li>
+                <li><a href="../pages/estudiantes.html">Estudiantes</a></li>
+                <li><a href="../pages/contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Bienvenidos al Sistema de Tutorías del ITSJ</h2>
+            <p>Un espacio para fortalecer el acompañamiento académico y personal de nuestros estudiantes.</p>
+            <a href="pages/coordinadora.html" class="btn">Conocer más</a>
+        </div>
+    </section>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <section class="info">
+        <h3>¿Qué es el programa de tutorías?</h3>
+        <p>
+            El programa de tutorías tiene como objetivo apoyar a los estudiantes del Instituto Tecnológico Superior de Jerez en su desarrollo académico, personal y profesional.
+            Se promueve la comunicación entre tutores, coordinadores y alumnos, fortaleciendo su desempeño dentro de la institución.
+        </p>
+    </section>
+
+    <footer>
+        <p>© 2025 Instituto Tecnológico Superior de Jerez | Área de Tutorías</p>
+    </footer>
+
+</body>
 </html>
