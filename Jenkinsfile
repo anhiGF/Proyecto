@@ -3,6 +3,7 @@ pipeline {
 
     stages {
 
+        //  CHECKOUT
         stage('Checkout') {
             steps {
                 checkout scm
@@ -11,7 +12,8 @@ pipeline {
             }
         }
 
-        stage('Backend - Composer') {
+        //  BACKEND (Laravel)
+        stage('Backend') {
             steps {
                 dir('proyecto-tutorias\\backend') {
                     echo "Verificando backend Laravel..."
@@ -21,7 +23,7 @@ pipeline {
 IF EXIST composer.json (
   echo Ejecutando composer install...
   composer install
-  echo Executando php artisan --version...
+  echo Ejecutando php artisan --version...
   php artisan --version
 ) ELSE (
   echo composer.json NO encontrado. Omitiendo instalación de backend.
@@ -31,7 +33,8 @@ IF EXIST composer.json (
             }
         }
 
-        stage('Frontend - npm build') {
+        //  FRONTEND (React/Vite)
+        stage('Frontend') {
             steps {
                 dir('proyecto-tutorias\\frontend') {
                     echo "Verificando frontend React..."
@@ -50,28 +53,26 @@ IF EXIST package.json (
             }
         }
 
-        stage('Code Analysis') {
+        // TEST (Pruebas de Laravel)
+        stage('Test') {
             steps {
                 dir('proyecto-tutorias\\backend') {
                     bat '''
-        IF EXIST app\\Http\\Controllers (
-        echo Analizando código PHP en app\\Http\\Controllers...
-        FOR %%f IN (app\\Http\\Controllers\\*.php) DO (
-            echo Analizando %%f
-            php -l "%%f"
-        )
-        ) ELSE (
-        echo Carpeta app\\Http\\Controllers NO encontrada. Omitiendo analisis.
-        )
+IF EXIST artisan (
+  echo Ejecutando pruebas de Laravel con php artisan test...
+  php artisan test
+) ELSE (
+  echo artisan NO encontrado. Omitiendo pruebas.
+)
                     '''
                 }
             }
         }
 
-
-        stage('Deploy (simulado)') {
+        // DEPLOY (simulado)
+        stage('Deploy') {
             steps {
-                echo 'Despliegue simulado completado.'
+                echo ' Despliegue simulado completado.'
             }
         }
     }
