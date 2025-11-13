@@ -20,18 +20,31 @@ pipeline {
                     bat 'dir'
 
                     bat '''
-IF EXIST composer.json (
-  echo Ejecutando composer install...
-  composer install
-  echo Ejecutando php artisan --version...
-  php artisan --version
-) ELSE (
-  echo composer.json NO encontrado. Omitiendo instalación de backend.
-)
+        IF EXIST composer.json (
+        echo Ejecutando composer install...
+        composer install
+
+        echo.
+        echo Configurando archivo .env...
+        IF NOT EXIST .env (
+            copy .env.example .env
+        )
+
+        echo.
+        echo Generando APP_KEY...
+        php artisan key:generate
+
+        echo.
+        echo Verificando version de Laravel...
+        php artisan --version
+        ) ELSE (
+        echo composer.json NO encontrado. Omitiendo instalación de backend.
+        )
                     '''
                 }
             }
         }
+
 
         //  FRONTEND (React/Vite)
         stage('Frontend') {
