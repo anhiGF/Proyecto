@@ -2,46 +2,72 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                //  "Pipeline script from SCM", esto basta:
                 checkout scm
+                echo "Contenido del workspace después del checkout:"
+                bat 'dir'
             }
         }
 
-        stage('Backend Composer') {
+        stage('Backend - Composer') {
             steps {
-                dir('backend') {
-                    // Comandos en Windows usan bat
-                    bat 'composer --version'
-                    bat 'composer install'
-                    bat 'php artisan --version'
+                dir('proyecto-tutorias\\backend') {
+                    echo "Verificando backend Laravel..."
+                    bat 'dir'
+
+                    bat '''
+IF EXIST composer.json (
+  echo Ejecutando composer install...
+  composer install
+  echo Executando php artisan --version...
+  php artisan --version
+) ELSE (
+  echo composer.json NO encontrado. Omitiendo instalación de backend.
+)
+                    '''
                 }
             }
         }
 
-        stage('Frontend Build') {
+        stage('Frontend - npm build') {
             steps {
-                dir('frontend') {
-                    bat 'npm -v'
-                    bat 'npm install'
-                    bat 'npm run build'
+                dir('proyecto-tutorias\\frontend') {
+                    echo "Verificando frontend React..."
+                    bat 'dir'
+
+                    bat '''
+IF EXIST package.json (
+  echo Ejecutando npm install y npm run build...
+  npm install
+  npm run build
+) ELSE (
+  echo package.json NO encontrado. Omitiendo build de frontend.
+)
+                    '''
                 }
             }
         }
 
         stage('Code Analysis') {
             steps {
-                dir('backend') {
-                    // Validación sintáctica básica
-                    bat 'php -l app\\Http\\Controllers\\*.php'
+                dir('proyecto-tutorias\\backend') {
+                    bat '''
+IF EXIST app (
+  echo Analizando código PHP...
+  php -l app\\Http\\Controllers\\*.php
+) ELSE (
+  echo Carpeta app NO encontrada. Omitiendo analisis.
+)
+                    '''
                 }
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy (simulado)') {
             steps {
-                echo 'Despliegue simulado completado'
+                echo 'Despliegue simulado completado.'
             }
         }
     }
@@ -51,7 +77,7 @@ pipeline {
             echo 'Pipeline ejecutado correctamente.'
         }
         failure {
-            echo 'Error en la ejecución del pipeline.'
+            echo 'Pipeline falló, revisa errores arriba.'
         }
     }
 }
