@@ -54,16 +54,20 @@ IF EXIST package.json (
             steps {
                 dir('proyecto-tutorias\\backend') {
                     bat '''
-IF EXIST app (
-  echo Analizando código PHP...
-  php -l app\\Http\\Controllers\\*.php
-) ELSE (
-  echo Carpeta app NO encontrada. Omitiendo analisis.
-)
+        IF EXIST app\\Http\\Controllers (
+        echo Analizando código PHP en app\\Http\\Controllers...
+        FOR %%f IN (app\\Http\\Controllers\\*.php) DO (
+            echo Analizando %%f
+            php -l "%%f"
+        )
+        ) ELSE (
+        echo Carpeta app\\Http\\Controllers NO encontrada. Omitiendo analisis.
+        )
                     '''
                 }
             }
         }
+
 
         stage('Deploy (simulado)') {
             steps {
