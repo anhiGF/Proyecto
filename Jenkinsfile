@@ -4,16 +4,18 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/anhiGF/Proyecto.git'
+                //  "Pipeline script from SCM", esto basta:
+                checkout scm
             }
         }
 
         stage('Backend Composer') {
             steps {
                 dir('backend') {
-                    sh 'composer install'
-                    sh 'php artisan --version'
+                    // Comandos en Windows usan bat
+                    bat 'composer --version'
+                    bat 'composer install'
+                    bat 'php artisan --version'
                 }
             }
         }
@@ -21,22 +23,35 @@ pipeline {
         stage('Frontend Build') {
             steps {
                 dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm run build'
+                    bat 'npm -v'
+                    bat 'npm install'
+                    bat 'npm run build'
                 }
             }
         }
 
         stage('Code Analysis') {
             steps {
-                sh 'php -l backend/app/**/*.php || true'
+                dir('backend') {
+                    // Validación sintáctica básica
+                    bat 'php -l app\\Http\\Controllers\\*.php'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Despliegue completado "
+                echo 'Despliegue simulado completado'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline ejecutado correctamente.'
+        }
+        failure {
+            echo 'Error en la ejecución del pipeline.'
         }
     }
 }
